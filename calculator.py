@@ -1,14 +1,13 @@
 from tkinter import *
 from calculatorfunctions import *
 
-# Providing basic Tkinter functions
+# Providing basic Tkinter functionality
 root = Tk()
 root.title("Calculator")
 root.geometry("500x600")
 root.configure(bg="black")
 
 # Label to display inputs
-# inputList = [0, 3]
 expression = ""
 displayInput = StringVar()
 inputField = Label(root, textvariable=displayInput, anchor="w", background="black", foreground="white", font=", 50", padx=25, pady=5)
@@ -19,12 +18,13 @@ displayOutput = StringVar()
 outputField = Label(root, textvariable=displayOutput, anchor="e", background="black", foreground="white", font=", 50", padx=25, pady=5)
 outputField.place(x=250, y=5, width=245, height=90)
 
-
+# Function to display the inputs in the inputField
 def inputText(symbol):
     global expression
-    expression += str(symbol)
-    displayInput.set(expression)
+    expression = expression + str(symbol)
+    displayInput.set(expression.replace(" ** ", " ^ "))
 
+# Function to the outputs in the outputField
 def equal():
     try:
         global expression
@@ -32,7 +32,14 @@ def equal():
         displayOutput.set(result)
     except:
         displayOutput.set("Error")
-        expression = ""
+        expression = "" 
+
+# Function to clear the expression and output
+def clear():
+    global expression
+    expression = ""
+    displayInput.set("")
+    displayOutput.set("")
 
 # Buttons for numbers
 button0 = Button(root, text="0", font=", 30", width=4, height=1, command=lambda: inputText("0"))
@@ -66,10 +73,10 @@ button9 = Button(root, text="9", font=", 30", width=4, height=1, command=lambda:
 button9.place(x=260, y=200)
 
 # Buttons for mathematical operations
-buttonDecimal = Button(root, background="gray", text=".", font=", 30", width=4, height=1)
+buttonDecimal = Button(root, background="gray", text=".", font=", 30", width=4, height=1, command=lambda: inputText("."))
 buttonDecimal.place(x=140, y=500)
 
-buttonNegative = Button(root, background="gray", text="(-)", font=", 30", width=4, height=1)
+buttonNegative = Button(root, background="gray", text="(-)", font=", 30", width=4, height=1, command=lambda: inputText("-"))
 buttonNegative.place(x=260, y=500)
 
 buttonEquals = Button(root, background="orange", foreground="white", text="=", font=", 30", width=4, height=1, command=equal)
@@ -87,17 +94,14 @@ buttonMultiply.place(x=380, y=190)
 buttonDivide = Button(root, background="orange", foreground="white", text="/", font=", 30", width=4, height=1, command=lambda: inputText(" / "))
 buttonDivide.place(x=380, y=100)
 
-buttonClear = Button(root, background="gray", text="CE", font=", 30", width=4, height=1)
+buttonClear = Button(root, background="gray", text="CE", font=", 30", width=4, height=1, command=clear)
 buttonClear.place(x=20, y=100)
 
 buttonMenu = Button(root, background="gray", text="HIST", font=", 30", width=4, height=1)
 buttonMenu.place(x=140, y=100)
 
-buttonPower = Button(root, background="gray", text="^", font=", 30", width=4, height=1)
+buttonPower = Button(root, background="gray", text="^", font=", 30", width=4, height=1, command=lambda: inputText(" ** "))
 buttonPower.place(x=260, y=100)
-
-
-
 
 # Mainloop which causes this app to run indefinitely
 root.mainloop()
